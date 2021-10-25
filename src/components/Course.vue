@@ -16,6 +16,7 @@
     }"
     ref="map"
     id="map"
+    @click="$emit('map-clicked', $event)"
   >
     <Hole
       v-for="(hole, i) in holes"
@@ -23,7 +24,7 @@
       :isSelected="selected === i"
       :isImperial="isImperial"
       :index="i"
-      :path="holes[i]"
+      :path="hole"
       @path-changed="$emit('path-changed', { path: $event, index: i })"
       @path-clicked="$emit('path-clicked', { event: $event, index: i })"
     />
@@ -44,7 +45,7 @@ export default {
       map.panTo(this.holes[this.selected][0]);
     },
   },
-  emits: ["pathChanged", "pathClicked"],
+  emits: ["pathChanged", "pathClicked", "mapClicked"],
   components: {
     Hole,
   },

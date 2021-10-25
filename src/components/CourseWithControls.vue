@@ -15,6 +15,7 @@
       :selected="selected"
       @path-changed="handlePathChanged"
       @path-clicked="handlePathClicked"
+      @map-clicked="handleMapClicked"
     />
     <v-navigation-drawer v-model="drawer" absolute temporary>
       <v-list dense>
@@ -126,8 +127,10 @@ export default {
       if (event.vertex) {
         const oldPath = this.course.holes[index];
         if (oldPath.length > 2) {
-          this.course.holes[index] = oldPath.filter(
-            (v, i) => i !== event.vertex
+          this.$set(
+            this.course.holes,
+            index,
+            oldPath.filter((v, i) => i !== event.vertex)
           );
         }
       } else {
@@ -135,7 +138,12 @@ export default {
       }
     },
     handlePathChanged: function ({ path, index }) {
-      this.course.holes[index] = path.getArray().map((v) => v.toJSON());
+      const newPath = path.getArray().map((v) => v.toJSON());
+      this.$set(this.course.holes, index, newPath);
+    },
+    handleMapClicked: function (e) {
+      const point = e.latLng.toJSON();
+      this.course.holes[this.selected].push(point);
     },
   },
   components: {
