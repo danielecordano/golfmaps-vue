@@ -60,6 +60,29 @@
             <div>{{ user.attributes.email }}</div>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item link>
+          <v-list-item-icon>
+            <v-icon>mdi-upload</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <router-link to="/import">Import</router-link>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          v-if="this.course.owner === this.user.username"
+          link
+          @click="
+            save();
+            drawer = false;
+          "
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-content-save</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Save</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
         <v-list-item>
           <v-list-item-icon>
             <v-icon>mdi-logout</v-icon>
@@ -86,6 +109,8 @@
 import { Auth } from "aws-amplify";
 import { AuthState } from "@aws-amplify/ui-components";
 import { onAuthUIStateChange } from "@aws-amplify/ui-components";
+import { API, graphqlOperation } from "aws-amplify";
+import { updateTodo } from "../graphql/mutations";
 import Course from "./Course.vue";
 export default {
   name: "CourseWithControls",
@@ -130,6 +155,7 @@ export default {
     prev: function () {
       this.selected = (this.selected + 17) % 18;
     },
+    save: function () {},
     handlePathClicked: function ({ event, index }) {
       if (event.vertex) {
         const oldPath = this.course.holes[index];
