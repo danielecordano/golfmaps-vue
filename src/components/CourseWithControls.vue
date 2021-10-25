@@ -1,5 +1,5 @@
 <template>
-  <div id="course">
+  <div id="course" @keyup.left="prev" @keyup.right="next">
     <v-app-bar-nav-icon
       @click="drawer = true"
       class="menu"
@@ -16,6 +16,8 @@
       @path-changed="handlePathChanged"
       @path-clicked="handlePathClicked"
       @map-clicked="handleMapClicked"
+      @map-keyboard-left="prev"
+      @map-keyboard-right="next"
     />
     <v-navigation-drawer v-model="drawer" absolute temporary>
       <v-list dense>
@@ -52,13 +54,18 @@
       <v-list v-if="user">
         <v-list-item link>
           <v-list-item-icon>
+            <v-icon>mdi-account</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <div>{{ user.attributes.email }}</div>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-icon>
             <v-icon>mdi-logout</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <div>
-              <div>Hello, {{ user.attributes.email }}</div>
-              <amplify-sign-out button-text="Log out"></amplify-sign-out>
-            </div>
+            <amplify-sign-out button-text="Log out"></amplify-sign-out>
           </v-list-item-content>
         </v-list-item>
       </v-list>
