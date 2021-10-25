@@ -75,13 +75,17 @@
   </div>
 </template>
 <script>
-import { Auth } from "@aws-amplify/ui-components";
+import { Auth } from "aws-amplify";
+import { AuthState } from "@aws-amplify/ui-components";
+import { onAuthUIStateChange } from "@aws-amplify/ui-components";
 import Course from "./Course.vue";
 export default {
   name: "CourseWithControls",
   data() {
     return {
-      user: null,
+      user: undefined,
+      authState: undefined,
+      unsubscribeAuth: undefined,
       drawer: false,
       loading: true,
       error: null,
@@ -97,14 +101,19 @@ export default {
     this.loading = false;
   },
   created() {
-    Auth.currentAuthenticatedUser()
-      .then((user) => {
-        this.user = user;
-        console.log(user);
-      })
-      .catch((e) => {
-        console.log(e.message);
+    if (this.authState === undefined) {
+      Auth.currentAuthenticatedUser().then((authData) => {
+        this.authState = AuthState.SignedIn;
+        this.user = authData;
       });
+    }
+    this.unsubscribeAuth = onAuthUIStateChange((authState, authData) => {
+      this.authState = authState;
+      this.user = authData;
+    });
+  },
+  beforeDestroy() {
+    this.unsubscribeAuth();
   },
   methods: {
     next: function () {
