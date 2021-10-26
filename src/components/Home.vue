@@ -1,8 +1,13 @@
 <template>
   <div v-if="loading">Loading...</div>
   <div v-else>
+    <v-text-field
+      label="Search"
+      append-icon="mdi-magnify"
+      v-model="search"
+    ></v-text-field>
     <v-list>
-      <v-list-item link v-for="course in courses" :key="course.id">
+      <v-list-item link v-for="course in filteredCourses" :key="course.id">
         <v-list-item-content>
           <router-link :to="`/course/${course.id}`" class="nodecoration">{{
             course.name
@@ -20,6 +25,7 @@ export default {
     return {
       courses: [],
       loading: true,
+      search: "",
     };
   },
   async mounted() {
@@ -33,6 +39,13 @@ export default {
       return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
     });
     this.loading = false;
+  },
+  computed: {
+    filteredCourses() {
+      const search = this.search.toLowerCase();
+      if (!search) return this.courses;
+      return this.courses.filter((c) => c.name.includes(search));
+    },
   },
 };
 </script>
