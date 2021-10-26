@@ -35,9 +35,6 @@ export const updateCourse = /* GraphQL */ `
         lng
       }
       owner
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
     }

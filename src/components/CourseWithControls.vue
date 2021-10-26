@@ -68,21 +68,23 @@
             <router-link to="/import">Import</router-link>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item
-          v-if="this.course.owner === this.user.username"
-          link
-          @click="
-            save();
-            drawer = false;
-          "
-        >
-          <v-list-item-icon>
-            <v-icon>mdi-content-save</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Save</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+        <div v-if="course">
+          <v-list-item
+            v-if="course.owner === user.username"
+            link
+            @click="
+              save();
+              drawer = false;
+            "
+          >
+            <v-list-item-icon>
+              <v-icon>mdi-content-save</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Save</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </div>
         <v-list-item>
           <v-list-item-icon>
             <v-icon>mdi-logout</v-icon>
@@ -137,7 +139,6 @@ export default {
       variables: { id: "0415df49-9970-4006-8f12-bc1282d247b1" },
     });
     this.course = query.data.getCourse;
-    console.log(this.course);
     this.loading = false;
   },
   created() {
@@ -163,11 +164,15 @@ export default {
       this.selected = (this.selected + 17) % 18;
     },
     save: async function () {
-      await API.graphql(
-        graphqlOperation(updateCourse, {
-          input: { id: this.course.id, holes: this.course.holes },
-        })
-      );
+      try {
+        await API.graphql(
+          graphqlOperation(updateCourse, {
+            input: { id: this.course.id, holes: this.course.holes },
+          })
+        );
+      } catch (error) {
+        console.log(error);
+      }
     },
     handlePathClicked: function ({ event, index }) {
       if (event.vertex) {
