@@ -41,8 +41,10 @@ export default {
   },
   watch: {
     selected: function () {
-      const map = this.$refs.map;
-      map.panTo(this.holes[this.selected][0]);
+      if (this.holes[this.selected][0]) {
+        const map = this.$refs.map;
+        map.panTo(this.holes[this.selected][0]);
+      }
     },
   },
   emits: ["pathChanged", "pathClicked", "mapClicked"],

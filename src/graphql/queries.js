@@ -25,14 +25,8 @@ export const listCourses = /* GraphQL */ `
         id
         name
         owner
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
       }
       nextToken
-      startedAt
     }
   }
 `;
