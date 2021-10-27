@@ -3,7 +3,7 @@
   <div v-else>
     <v-text-field
       label="Search"
-      append-icon="mdi-magnify"
+      prepend-icon="mdi-magnify"
       v-model="search"
     ></v-text-field>
     <v-list>
