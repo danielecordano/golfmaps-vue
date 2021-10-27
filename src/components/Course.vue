@@ -3,7 +3,6 @@
     :center="holes[0][0]"
     :zoom="17"
     map-type-id="satellite"
-    gestureHandling="greedy"
     :options="{
       zoomControl: false,
       mapTypeControl: false,
@@ -14,6 +13,7 @@
         position: 6,
       },
       fullscreenControl: false,
+      gestureHandling: 'greedy',
     }"
     ref="map"
     id="map"
