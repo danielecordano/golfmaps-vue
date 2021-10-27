@@ -14,9 +14,6 @@ export const createCourse = /* GraphQL */ `
         lng
       }
       owner
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -53,9 +50,6 @@ export const deleteCourse = /* GraphQL */ `
         lng
       }
       owner
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
     }
