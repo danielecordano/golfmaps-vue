@@ -21,7 +21,12 @@
     />
     <v-navigation-drawer v-model="drawer" absolute temporary>
       <v-list dense>
-        <v-text-field label="Name" v-model="course.name"></v-text-field>
+        <v-text-field
+          v-if="course"
+          prepend-icon="mdi-rename-box"
+          v-model="course.name"
+        >
+        </v-text-field>
         <v-list-item
           link
           @click="
@@ -48,6 +53,20 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Previous hole</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          link
+          @click="
+            isImperial = !isImperial;
+            drawer = false;
+          "
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-ruler</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>{{ isImperialLabel }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -170,6 +189,11 @@ export default {
       isImperial: true,
       selected: 0,
     };
+  },
+  computed: {
+    isImperialLabel() {
+      return this.isImperial ? "Imperial units" : "Metric units";
+    },
   },
   async mounted() {
     const response = await API.graphql({
