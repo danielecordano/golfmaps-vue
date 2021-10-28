@@ -18,6 +18,7 @@
       @map-clicked="handleMapClicked"
       @map-keyboard-left="prev"
       @map-keyboard-right="next"
+      class="fullheight"
     />
     <v-navigation-drawer v-model="drawer" absolute temporary>
       <v-list>
@@ -214,7 +215,6 @@ export default {
         const ll = this.course.holes[0][0];
         const q = ll.lat.toFixed(3) + "," + ll.lng.toFixed(3);
         const url = "https://weather.com/weather/today/l/" + q;
-        console.log(url);
         return url;
       }
       return "#";
@@ -329,6 +329,10 @@ export default {
 };
 </script>
 <style scoped>
+.fullheight {
+  position: fixed;
+  height: 100%;
+}
 .menu {
   position: absolute;
   z-index: 1;
