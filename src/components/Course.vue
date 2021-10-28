@@ -10,7 +10,7 @@
       streetViewControl: false,
       rotateControl: true,
       rotateControlOptions: {
-        position: 6,
+        position: 7,
       },
       fullscreenControl: false,
       gestureHandling: 'greedy',

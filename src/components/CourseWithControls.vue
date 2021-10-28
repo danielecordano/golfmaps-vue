@@ -20,13 +20,15 @@
       @map-keyboard-right="next"
     />
     <v-navigation-drawer v-model="drawer" absolute temporary>
-      <v-list dense>
-        <v-text-field
-          v-if="course"
-          prepend-icon="mdi-rename-box"
-          v-model="course.name"
-        >
-        </v-text-field>
+      <v-list>
+        <v-list-item v-if="course" link>
+          <v-list-item-icon>
+            <v-icon>mdi-lead-pencil</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-text-field v-model="course.name"> </v-text-field>
+          </v-list-item-content>
+        </v-list-item>
         <v-list-item
           link
           @click="
@@ -71,13 +73,24 @@
         </v-list-item>
       </v-list>
       <v-divider />
-      <v-list dense>
+      <v-list>
         <v-list-item link>
           <v-list-item-icon>
             <v-icon>mdi-magnify</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <router-link to="/">Search a course</router-link>
+            <router-link to="/" class="link">Search a course</router-link>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+      <v-divider />
+      <v-list v-if="course">
+        <v-list-item link>
+          <v-list-item-icon>
+            <v-icon>mdi-weather-sunny</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <a :href="weatherUrl" target="_blank" class="link">Weather</a>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -96,7 +109,7 @@
             <v-icon>mdi-upload</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <router-link to="/import">Import</router-link>
+            <router-link to="/import" class="link">Import</router-link>
           </v-list-item-content>
         </v-list-item>
         <div v-if="course">
@@ -160,7 +173,7 @@
             <v-icon>mdi-login</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <router-link to="/auth">Login</router-link>
+            <router-link to="/auth" class="link">Login</router-link>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -192,7 +205,19 @@ export default {
   },
   computed: {
     isImperialLabel() {
-      return this.isImperial ? "Imperial units" : "Metric units";
+      return this.isImperial
+        ? "Change to metric units"
+        : "Change to imperial units";
+    },
+    weatherUrl() {
+      if (this.course) {
+        const ll = this.course.holes[0][0];
+        const q = ll.lat.toFixed(3) + "," + ll.lng.toFixed(3);
+        const url = "https://weather.com/weather/today/l/" + q;
+        console.log(url);
+        return url;
+      }
+      return "#";
     },
   },
   async mounted() {
@@ -308,5 +333,9 @@ export default {
   position: absolute;
   z-index: 1;
   background: white;
+}
+.link {
+  text-decoration: none;
+  color: black;
 }
 </style>
