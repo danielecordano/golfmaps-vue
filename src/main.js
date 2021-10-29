@@ -13,10 +13,11 @@ import NewCourse from "./components/NewCourse";
 import * as GmapVue from "gmap-vue";
 import "@aws-amplify/ui-vue";
 import { Auth } from "aws-amplify";
-import Amplify from "aws-amplify";
+import Amplify, { Analytics } from "aws-amplify";
 import awsconfig from "./aws-exports";
 
 Amplify.configure(awsconfig);
+Analytics.record();
 
 const opts = {
   icons: {
