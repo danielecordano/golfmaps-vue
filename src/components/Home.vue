@@ -1,21 +1,25 @@
 <template>
-  <div v-if="loading">Loading...</div>
-  <div v-else>
-    <v-text-field
-      label="Search"
-      prepend-icon="mdi-magnify"
-      v-model="search"
-    ></v-text-field>
-    <v-list>
-      <v-list-item link v-for="course in filteredCourses" :key="course.id">
-        <v-list-item-content>
-          <router-link :to="`/course/${course.id}`" class="nodecoration">{{
-            course.name
-          }}</router-link>
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
-  </div>
+  <v-app>
+    <div v-if="loading">
+      <v-progress-linear indeterminate color="orange"></v-progress-linear>
+    </div>
+    <div v-else>
+      <v-text-field
+        label="Search"
+        prepend-icon="mdi-magnify"
+        v-model="search"
+      ></v-text-field>
+      <v-list>
+        <v-list-item link v-for="course in filteredCourses" :key="course.id">
+          <v-list-item-content>
+            <router-link :to="`/course/${course.id}`" class="nodecoration">{{
+              course.name
+            }}</router-link>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </div>
+  </v-app>
 </template>
 <script>
 import { API } from "aws-amplify";
@@ -39,7 +43,6 @@ export default {
     this.courses = response.data.listCourses.items.sort(function (a, b) {
       return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
     });
-    console.log(this.courses);
     this.loading = false;
   },
   computed: {

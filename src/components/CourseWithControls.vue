@@ -1,184 +1,189 @@
 <template>
   <div id="course" @keyup.left="prev" @keyup.right="next">
-    <v-app-bar-nav-icon
-      @click="drawer = true"
-      class="menu"
-    ></v-app-bar-nav-icon>
-    <div v-if="loading" class="loading">Loading...</div>
-    <div v-else-if="error" class="error">
-      {{ error }}
-    </div>
-    <Course
-      v-else-if="course"
-      :holes="course.holes"
-      :isImperial="isImperial"
-      :selected="selected"
-      @path-changed="handlePathChanged"
-      @path-clicked="handlePathClicked"
-      @map-clicked="handleMapClicked"
-      @map-keyboard-left="prev"
-      @map-keyboard-right="next"
-      class="fullheight"
-    />
-    <v-navigation-drawer v-model="drawer" absolute temporary>
-      <v-list>
-        <v-list-item v-if="course" link>
-          <v-list-item-icon>
-            <v-icon>mdi-lead-pencil</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-text-field v-model="course.name"> </v-text-field>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item
-          link
-          @click="
-            next();
-            drawer = false;
-          "
-        >
-          <v-list-item-icon>
-            <v-icon>mdi-chevron-right</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Next hole</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item
-          link
-          @click="
-            prev();
-            drawer = false;
-          "
-        >
-          <v-list-item-icon>
-            <v-icon>mdi-chevron-left</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Previous hole</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item
-          link
-          @click="
-            isImperial = !isImperial;
-            drawer = false;
-          "
-        >
-          <v-list-item-icon>
-            <v-icon>mdi-ruler</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>{{ isImperialLabel }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-      <v-divider />
-      <v-list>
-        <v-list-item link>
-          <v-list-item-icon>
-            <v-icon>mdi-magnify</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <router-link to="/" class="link">Search a course</router-link>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-      <v-divider />
-      <v-list v-if="course">
-        <v-list-item link>
-          <v-list-item-icon>
-            <v-icon>mdi-weather-sunny</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <a :href="weatherUrl" target="_blank" class="link">Weather</a>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-      <v-divider />
-      <v-list v-if="user">
-        <v-list-item link>
-          <v-list-item-icon>
-            <v-icon>mdi-account</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <div>{{ user.attributes.email }}</div>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item link>
-          <v-list-item-icon>
-            <v-icon>mdi-upload</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <router-link to="/import" class="link">Import</router-link>
-          </v-list-item-content>
-        </v-list-item>
-        <div v-if="course">
-          <div v-if="course.owner === user.username">
-            <v-list-item
-              link
-              @click="
-                save();
-                drawer = false;
-              "
-            >
-              <v-list-item-icon>
-                <v-icon>mdi-content-save</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title>Save</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item
-              link
-              @click="
-                remove();
-                drawer = false;
-              "
-            >
-              <v-list-item-icon>
-                <v-icon>mdi-delete</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title>Delete</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </div>
+    <v-app>
+      <v-app-bar-nav-icon
+        v-if="course"
+        @click="drawer = true"
+        class="menu"
+      ></v-app-bar-nav-icon>
+      <div v-if="loading">
+        <v-progress-linear indeterminate color="orange"></v-progress-linear>
+      </div>
+      <div v-else-if="error">
+        {{ error }}
+      </div>
+      <Course
+        v-else-if="course"
+        :holes="course.holes"
+        :isImperial="isImperial"
+        :selected="selected"
+        @path-changed="handlePathChanged"
+        @path-clicked="handlePathClicked"
+        @map-clicked="handleMapClicked"
+        @map-keyboard-left="prev"
+        @map-keyboard-right="next"
+        class="fullheight"
+      />
+      <v-navigation-drawer v-model="drawer" absolute temporary>
+        <v-list>
+          <v-list-item v-if="course" link>
+            <v-list-item-icon>
+              <v-icon>mdi-lead-pencil</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-text-field v-model="course.name"> </v-text-field>
+            </v-list-item-content>
+          </v-list-item>
           <v-list-item
             link
             @click="
-              fork();
+              next();
               drawer = false;
             "
           >
             <v-list-item-icon>
-              <v-icon>mdi-source-fork</v-icon>
+              <v-icon>mdi-chevron-right</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title>Fork</v-list-item-title>
+              <v-list-item-title>Next hole</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-        </div>
-        <v-list-item>
-          <v-list-item-icon>
-            <v-icon>mdi-logout</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <amplify-sign-out button-text="Log out"></amplify-sign-out>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-      <v-list v-else>
-        <v-list-item link>
-          <v-list-item-icon>
-            <v-icon>mdi-login</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <router-link to="/auth" class="link">Login</router-link>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
+          <v-list-item
+            link
+            @click="
+              prev();
+              drawer = false;
+            "
+          >
+            <v-list-item-icon>
+              <v-icon>mdi-chevron-left</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Previous hole</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item
+            link
+            @click="
+              isImperial = !isImperial;
+              drawer = false;
+            "
+          >
+            <v-list-item-icon>
+              <v-icon>mdi-ruler</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>{{ isImperialLabel }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+        <v-divider />
+        <v-list v-if="course">
+          <v-list-item link>
+            <v-list-item-icon>
+              <v-icon>mdi-weather-sunny</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <a :href="weatherUrl" target="_blank" class="link">Weather</a>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+        <v-divider />
+        <v-list>
+          <v-list-item link>
+            <v-list-item-icon>
+              <v-icon>mdi-magnify</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <router-link to="/" class="link">Search a course</router-link>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+        <v-divider />
+        <v-list v-if="user">
+          <v-list-item link>
+            <v-list-item-icon>
+              <v-icon>mdi-account</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <div>{{ user.attributes.email }}</div>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item link>
+            <v-list-item-icon>
+              <v-icon>mdi-upload</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <router-link to="/import" class="link">Import</router-link>
+            </v-list-item-content>
+          </v-list-item>
+          <div v-if="course">
+            <div v-if="course.owner === user.username">
+              <v-list-item
+                link
+                @click="
+                  save();
+                  drawer = false;
+                "
+              >
+                <v-list-item-icon>
+                  <v-icon>mdi-content-save</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Save</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item
+                link
+                @click="
+                  remove();
+                  drawer = false;
+                "
+              >
+                <v-list-item-icon>
+                  <v-icon>mdi-delete</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Delete</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </div>
+            <v-list-item
+              link
+              @click="
+                fork();
+                drawer = false;
+              "
+            >
+              <v-list-item-icon>
+                <v-icon>mdi-source-fork</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>Fork</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </div>
+          <v-list-item>
+            <v-list-item-icon>
+              <v-icon>mdi-logout</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <amplify-sign-out button-text="Log out"></amplify-sign-out>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+        <v-list v-else>
+          <v-list-item link>
+            <v-list-item-icon>
+              <v-icon>mdi-login</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <router-link to="/auth" class="link">Login</router-link>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-navigation-drawer>
+    </v-app>
   </div>
 </template>
 <script>
