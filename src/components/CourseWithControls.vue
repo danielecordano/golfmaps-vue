@@ -162,6 +162,16 @@
                 <v-list-item-title>Fork</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
+            <v-list-item link>
+              <v-list-item-icon>
+                <v-icon>mdi-folder-plus</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <router-link to="/new" class="link"
+                  >Create new course</router-link
+                >
+              </v-list-item-content>
+            </v-list-item>
           </div>
           <v-list-item>
             <v-list-item-icon>
@@ -288,9 +298,8 @@ export default {
       this.$router.push("/");
     },
     fork: async function () {
-      let response = undefined;
       try {
-        response = await API.graphql(
+        const response = await API.graphql(
           graphqlOperation(createCourse, {
             input: {
               name: this.course.name,
@@ -299,10 +308,11 @@ export default {
             },
           })
         );
+        const id = response.data.createCourse.id;
+        this.$route.push(`/course/${id}`);
       } catch (error) {
         console.log(error);
       }
-      console.log(response);
     },
     handlePathClicked: function ({ event, index }) {
       if (event.vertex) {
