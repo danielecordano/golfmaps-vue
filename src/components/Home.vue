@@ -49,7 +49,7 @@ export default {
     filteredCourses() {
       const search = this.search.toLowerCase();
       if (!search) return this.courses;
-      return this.courses.filter((c) => c.name.includes(search));
+      return this.courses.filter((c) => c.name.toLowerCase().includes(search));
     },
   },
 };

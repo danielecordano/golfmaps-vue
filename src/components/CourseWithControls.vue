@@ -106,7 +106,14 @@
               <v-icon>mdi-account</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <div>{{ user.attributes.email }}</div>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <span v-bind="attrs" v-on="on">{{
+                    user.attributes.email
+                  }}</span>
+                </template>
+                <span>{{ user.attributes.email }}</span>
+              </v-tooltip>
             </v-list-item-content>
           </v-list-item>
           <v-list-item link>
