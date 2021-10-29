@@ -27,7 +27,9 @@ const awsmobile = {
       "REQUIRES_UPPERCASE"
     ]
   },
-  aws_cognito_verification_mechanisms: ["EMAIL"]
+  aws_cognito_verification_mechanisms: ["EMAIL"],
+  aws_mobile_analytics_app_id: "df955e19537849269d8736823ed64736",
+  aws_mobile_analytics_app_region: "us-east-1"
 };
 
 export default awsmobile;

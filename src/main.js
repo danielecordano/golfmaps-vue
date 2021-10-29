@@ -17,7 +17,7 @@ import Amplify, { Analytics } from "aws-amplify";
 import awsconfig from "./aws-exports";
 
 Amplify.configure(awsconfig);
-Analytics.record();
+Analytics.record({ name: "main" });
 
 const opts = {
   icons: {
