@@ -1,6 +1,6 @@
 <template>
   <GmapMap
-    :center="holes[0][0]"
+    :center="center"
     :zoom="17"
     map-type-id="satellite"
     :options="{
@@ -36,7 +36,12 @@
 import Hole from "./Hole";
 export default {
   name: "Course",
-  props: { isImperial: Boolean, holes: Array, selected: Number },
+  props: {
+    isImperial: Boolean,
+    holes: Array,
+    selected: Number,
+    center: Object,
+  },
   data() {
     return {};
   },

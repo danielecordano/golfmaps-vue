@@ -14,6 +14,7 @@
       </div>
       <Course
         v-else-if="course"
+        :center="center"
         :holes="course.holes"
         :isImperial="isImperial"
         :selected="selected"
@@ -224,6 +225,7 @@ export default {
       course: null,
       isImperial: true,
       selected: 0,
+      center: null,
     };
   },
   computed: {
@@ -248,7 +250,9 @@ export default {
       variables: { id: this.$route.params.id },
       authMode: "API_KEY",
     });
-    this.course = response.data.getCourse;
+    const course = response.data.getCourse;
+    this.center = { ...course.holes[0][0] };
+    this.course = course;
     this.loading = false;
   },
   created() {
@@ -324,13 +328,11 @@ export default {
     handlePathClicked: function ({ event, index }) {
       if (event.vertex || event.vertex === 0) {
         const oldPath = this.course.holes[index];
-        if (oldPath.length > 1 || this.selected > 0) {
-          this.$set(
-            this.course.holes,
-            index,
-            oldPath.filter((v, i) => i !== event.vertex)
-          );
-        }
+        this.$set(
+          this.course.holes,
+          index,
+          oldPath.filter((v, i) => i !== event.vertex)
+        );
       } else {
         this.selected = index;
       }
