@@ -78,7 +78,7 @@ export default {
         const response = await API.graphql(
           graphqlOperation(createCourse, {
             input: {
-              name: this.name,
+              name: this.name.toLowerCase(),
               holes: this.holes,
               owner: this.user.username,
             },

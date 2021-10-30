@@ -117,14 +117,6 @@
               </v-tooltip>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item link>
-            <v-list-item-icon>
-              <v-icon>mdi-upload</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <router-link to="/import" class="link">Import</router-link>
-            </v-list-item-content>
-          </v-list-item>
           <div v-if="course">
             <div v-if="course.owner === user.username">
               <v-list-item
@@ -286,7 +278,7 @@ export default {
             input: {
               id: this.course.id,
               holes: this.course.holes,
-              name: this.course.name,
+              name: this.course.name.toLowerCase(),
             },
           })
         );
@@ -313,7 +305,7 @@ export default {
         const response = await API.graphql(
           graphqlOperation(createCourse, {
             input: {
-              name: this.course.name,
+              name: this.course.name.toLowerCase(),
               holes: this.course.holes,
               owner: this.user.username,
             },
