@@ -19,8 +19,7 @@
         v-for="(vertex, i) in path"
         :position="vertex"
         :icon="{
-          url:
-            'https://upload.wikimedia.org/wikipedia/commons/8/8c/Transparent.png',
+          url: 'https://maps.google.com/mapfiles/ms/icons/golfer.png',
           scaledSize: { width: 0, height: 0 },
         }"
       >

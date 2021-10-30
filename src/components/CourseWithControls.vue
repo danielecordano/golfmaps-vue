@@ -322,9 +322,9 @@ export default {
       }
     },
     handlePathClicked: function ({ event, index }) {
-      if (event.vertex) {
+      if (event.vertex || event.vertex === 0) {
         const oldPath = this.course.holes[index];
-        if (oldPath.length > 1) {
+        if (oldPath.length > 1 || this.selected > 0) {
           this.$set(
             this.course.holes,
             index,
@@ -333,7 +333,6 @@ export default {
         }
       } else {
         this.selected = index;
-        console.log(index);
       }
     },
     handlePathChanged: function ({ path, index }) {
