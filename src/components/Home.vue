@@ -1,24 +1,27 @@
 <template>
   <v-app>
-    <div v-if="loading">
-      <v-progress-linear indeterminate color="orange"></v-progress-linear>
-    </div>
-    <div v-else>
+    <v-container>
       <v-text-field
         label="Search"
         prepend-icon="mdi-magnify"
         v-model="search"
+        @input="fetch"
       ></v-text-field>
-      <v-list>
-        <v-list-item link v-for="course in filteredCourses" :key="course.id">
-          <v-list-item-content>
-            <router-link :to="`/course/${course.id}`" class="nodecoration">{{
-              course.name
-            }}</router-link>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </div>
+      <div v-if="loading">
+        <v-progress-linear indeterminate color="orange"></v-progress-linear>
+      </div>
+      <div v-else>
+        <v-list>
+          <v-list-item link v-for="course in courses" :key="course.id">
+            <v-list-item-content>
+              <router-link :to="`/course/${course.id}`" class="nodecoration">{{
+                course.name
+              }}</router-link>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </div>
+    </v-container>
   </v-app>
 </template>
 <script>
@@ -32,24 +35,29 @@ export default {
       search: "",
     };
   },
-  async mounted() {
-    const response = await API.graphql({
-      query: listCourses,
-      variables: {
-        limit: 1000,
-      },
-      authMode: "API_KEY",
-    });
-    this.courses = response.data.listCourses.items.sort(function (a, b) {
-      return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
-    });
-    this.loading = false;
+  mounted() {
+    this.fetch();
   },
-  computed: {
-    filteredCourses() {
-      const search = this.search.toLowerCase();
-      if (!search) return this.courses;
-      return this.courses.filter((c) => c.name.toLowerCase().includes(search));
+  methods: {
+    async fetch() {
+      this.loading = true;
+      const filter = {
+        name: {
+          contains: this.search.toLowerCase(),
+        },
+      };
+      const response = await API.graphql({
+        query: listCourses,
+        variables: {
+          filter: filter,
+          limit: 1000,
+        },
+        authMode: "API_KEY",
+      });
+      this.courses = response.data.listCourses.items.sort(function (a, b) {
+        return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
+      });
+      this.loading = false;
     },
   },
 };
