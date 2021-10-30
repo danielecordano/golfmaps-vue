@@ -14,7 +14,7 @@
         <v-list>
           <v-list-item link v-for="course in courses" :key="course.id">
             <v-list-item-content>
-              <router-link :to="`/course/${course.id}`" class="nodecoration">{{
+              <router-link :to="`/course/${course.id}`" class="no-decoration">{{
                 course.name
               }}</router-link>
             </v-list-item-content>
@@ -22,6 +22,29 @@
         </v-list>
       </div>
     </v-container>
+    <v-footer dark padless fixed>
+      <v-card
+        flat
+        tile
+        class="orange lighten-1 white--text text-center full-width"
+      >
+        <v-card-text>
+          <a
+            href="https://twitter.com/golfmapsinfo"
+            target="_blank"
+            class="nodecoration"
+          >
+            <v-btn class="mx-4 white--text" icon>
+              <v-icon size="24px"> mdi-twitter </v-icon>
+            </v-btn>
+          </a>
+        </v-card-text>
+        <v-divider></v-divider>
+        <v-card-text class="white--text">
+          {{ new Date().getFullYear() }} — <strong>Golfmaps</strong>
+        </v-card-text>
+      </v-card>
+    </v-footer>
   </v-app>
 </template>
 <script>
@@ -63,7 +86,10 @@ export default {
 };
 </script>
 <style scoped>
-.nodecoration {
+.no-decoration {
   text-decoration: none;
+}
+.full-width {
+  width: 100%;
 }
 </style>
