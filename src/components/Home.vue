@@ -32,7 +32,7 @@
           <a
             href="https://twitter.com/golfmapsinfo"
             target="_blank"
-            class="nodecoration"
+            class="no-decoration"
           >
             <v-btn class="mx-4 white--text" icon>
               <v-icon size="24px"> mdi-twitter </v-icon>
