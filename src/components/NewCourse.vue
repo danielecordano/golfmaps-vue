@@ -80,7 +80,6 @@ export default {
             input: {
               name: this.name.toLowerCase(),
               holes: this.holes,
-              owner: this.user.username,
             },
           })
         );
