@@ -307,7 +307,6 @@ export default {
             input: {
               name: this.course.name.toLowerCase(),
               holes: this.course.holes,
-              owner: this.user.username,
             },
           })
         );

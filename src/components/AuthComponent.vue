@@ -19,6 +19,5 @@ export default {
 <style>
 .auth {
   margin: 0 auto;
-  width: 460px;
 }
 </style>
