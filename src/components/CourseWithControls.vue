@@ -32,7 +32,12 @@
               <v-icon>mdi-lead-pencil</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <v-text-field v-model="course.name"> </v-text-field>
+              <v-text-field
+                v-model="course.name"
+                label="Course name"
+                placeholder="name"
+              >
+              </v-text-field>
             </v-list-item-content>
           </v-list-item>
           <v-list-item
