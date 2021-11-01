@@ -1,7 +1,12 @@
 <template>
   <v-app>
     <v-container>
-      <h3>My Courses</h3>
+      <v-row class="mb-6" no-gutters>
+        <v-col md="4">
+          <h3 class="title">My Courses</h3>
+        </v-col>
+        <router-link to="/" class="no-decoration">All courses</router-link>
+      </v-row>
       <v-text-field
         label="Search my courses"
         placeholder="Course name"
@@ -12,7 +17,7 @@
       <div v-if="loading">
         <v-progress-linear indeterminate color="orange"></v-progress-linear>
       </div>
-      <div v-else>
+      <div v-else-if="courses">
         <v-list>
           <v-list-item
             link
