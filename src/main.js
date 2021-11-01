@@ -9,6 +9,7 @@ import CourseWithControls from "./components/CourseWithControls";
 import AuthComponent from "./components/AuthComponent";
 import ImportCourses from "./components/ImportCourses";
 import NewCourse from "./components/NewCourse";
+import MyCourses from "./components/MyCourses";
 
 import * as GmapVue from "gmap-vue";
 import "@aws-amplify/ui-vue";
@@ -38,7 +39,8 @@ const routes = [
   { path: "/course/:id", component: CourseWithControls },
   { path: "/auth", component: AuthComponent },
   { path: "/import", component: ImportCourses, meta: { requiresAuth: true } },
-  { path: "/new", component: NewCourse, meta: { requiresAuth: true } }
+  { path: "/new", component: NewCourse, meta: { requiresAuth: true } },
+  { path: "/mycourses", component: MyCourses, meta: { requiresAuth: true } }
 ];
 
 const router = new VueRouter({

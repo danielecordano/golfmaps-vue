@@ -122,6 +122,14 @@
               </v-tooltip>
             </v-list-item-content>
           </v-list-item>
+          <v-list-item link>
+            <v-list-item-icon>
+              <v-icon>mdi-folder</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <router-link to="/mycourses" class="link">My courses</router-link>
+            </v-list-item-content>
+          </v-list-item>
           <div v-if="course">
             <div v-if="course.owner === user.username">
               <v-list-item
@@ -303,7 +311,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      this.$router.push("/");
+      this.$router.go(-1);
     },
     fork: async function () {
       try {

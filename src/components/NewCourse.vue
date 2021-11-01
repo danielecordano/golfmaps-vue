@@ -48,30 +48,16 @@
 </template>
 
 <script>
-import { Auth } from "aws-amplify";
-import { AuthState } from "@aws-amplify/ui-components";
 import { API, graphqlOperation } from "aws-amplify";
 import { createCourse } from "../graphql/mutations";
 export default {
   name: "playground",
   data: () => ({
-    user: undefined,
-    authState: undefined,
     name: "",
     lat: "",
     lng: "",
     holes: [],
   }),
-  created() {
-    if (this.authState === undefined) {
-      Auth.currentAuthenticatedUser()
-        .then((authData) => {
-          this.authState = AuthState.SignedIn;
-          this.user = authData;
-        })
-        .catch((error) => console.log(error));
-    }
-  },
   methods: {
     create: async function () {
       try {

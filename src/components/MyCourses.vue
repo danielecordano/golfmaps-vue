@@ -1,8 +1,9 @@
 <template>
   <v-app>
     <v-container>
+      <h3>My Courses</h3>
       <v-text-field
-        label="Search all courses"
+        label="Search my courses"
         placeholder="Course name"
         prepend-icon="mdi-magnify"
         v-model="search"
@@ -54,26 +55,43 @@
   </v-app>
 </template>
 <script>
-import { API } from "aws-amplify";
+import { Auth, API } from "aws-amplify";
 import { listCourses } from "../graphql/queries";
 export default {
   data() {
     return {
+      user: undefined,
       courses: [],
       loading: true,
       search: "",
     };
   },
-  mounted() {
-    this.fetch();
+  created() {
+    if (this.user === undefined) {
+      Auth.currentAuthenticatedUser()
+        .then((authData) => {
+          this.user = authData;
+          this.fetch();
+        })
+        .catch((error) => console.log(error));
+    }
   },
   methods: {
     async fetch() {
       this.loading = true;
       const filter = {
-        name: {
-          contains: this.search.toLowerCase(),
-        },
+        and: [
+          {
+            name: {
+              contains: this.search.toLowerCase(),
+            },
+          },
+          {
+            owner: {
+              eq: this.user.username,
+            },
+          },
+        ],
       };
       const response = await API.graphql({
         query: listCourses,
@@ -81,7 +99,6 @@ export default {
           filter: filter,
           limit: 1000,
         },
-        authMode: "API_KEY",
       });
       this.courses = response.data.listCourses.items.sort(function (a, b) {
         return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;

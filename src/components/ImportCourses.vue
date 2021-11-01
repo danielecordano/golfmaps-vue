@@ -13,12 +13,11 @@ export default {
   data() {
     return {
       file: null,
-      user: undefined,
-      authState: undefined,
     };
   },
   methods: {
     uploadFile: function () {
+      const router = this.$router;
       if (this.file) {
         const r = new FileReader();
         r.onload = function (e) {
@@ -33,6 +32,7 @@ export default {
               console.log(error);
             }
           });
+          router.push("/mycourses");
         };
         r.readAsText(this.file);
       } else {
