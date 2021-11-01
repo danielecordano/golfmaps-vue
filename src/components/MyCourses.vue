@@ -17,7 +17,7 @@
       <div v-if="loading">
         <v-progress-linear indeterminate color="orange"></v-progress-linear>
       </div>
-      <div v-else-if="courses">
+      <div v-else-if="courses" class="fill-height">
         <v-list>
           <v-list-item
             link
