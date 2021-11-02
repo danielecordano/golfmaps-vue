@@ -58,8 +58,9 @@ router.beforeResolve((to, from, next) => {
           path: "/auth"
         });
       });
+  } else {
+    next();
   }
-  next();
 });
 
 new Vue({
