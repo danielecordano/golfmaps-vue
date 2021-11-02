@@ -47,17 +47,16 @@ const router = new VueRouter({
   routes
 });
 
-router.beforeResolve((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
-    Auth.currentAuthenticatedUser()
-      .then(() => {
-        next();
-      })
-      .catch(() => {
-        next({
-          path: "/auth"
-        });
+    try {
+      await Auth.currentAuthenticatedUser();
+      next();
+    } catch (error) {
+      next({
+        path: "/auth"
       });
+    }
   } else {
     next();
   }

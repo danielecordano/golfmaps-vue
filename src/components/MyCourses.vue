@@ -5,6 +5,7 @@
         <v-col md="4">
           <h3 class="title">My Courses</h3>
         </v-col>
+        <v-spacer />
         <router-link to="/" class="no-decoration">All courses</router-link>
       </v-row>
       <v-text-field
