@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-btn icon @click="$router.go(-1)">
-      <v-icon> mdi-left-arrow </v-icon>
+      <v-icon> mdi-arrow-left </v-icon>
     </v-btn>
     <v-form ref="form" v-model="valid" lazy-validation>
       <v-text-field
