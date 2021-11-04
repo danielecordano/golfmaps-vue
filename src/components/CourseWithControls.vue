@@ -248,7 +248,7 @@ export default {
     },
     weatherUrl() {
       if (this.course) {
-        const ll = this.course.holes[0][0];
+        const ll = this.center;
         const q = ll.lat.toFixed(3) + "," + ll.lng.toFixed(3);
         const url = "https://weather.com/weather/today/l/" + q;
         return url;
@@ -263,7 +263,15 @@ export default {
       authMode: "API_KEY",
     });
     const course = response.data.getCourse;
-    this.center = { ...course.holes[0][0] };
+    course.holes.every((hole) => {
+      if (hole[0]) {
+        this.center = { ...hole[0] };
+        return false;
+      } else {
+        return true;
+      }
+    });
+    if (!this.center) this.center = { lat: 33.50239, lng: -82.01995 };
     this.course = course;
     this.loading = false;
   },
@@ -318,7 +326,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      this.$router.go(-1);
+      this.$router.push("/");
     },
     fork: async function () {
       try {
