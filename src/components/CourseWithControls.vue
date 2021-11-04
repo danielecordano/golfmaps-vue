@@ -201,7 +201,14 @@
               <v-icon>mdi-login</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <router-link to="/auth" class="link">Login</router-link>
+              <router-link
+                :to="{
+                  path: '/auth',
+                  query: { redirect: $router.currentRoute.path },
+                }"
+                class="link"
+                >Login</router-link
+              >
             </v-list-item-content>
           </v-list-item>
         </v-list>

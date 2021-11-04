@@ -10,14 +10,13 @@ export default {
   data() {
     return {
       unsubscribeAuth: undefined,
-      authCounter: 0,
     };
   },
   created() {
     this.unsubscribeAuth = onAuthUIStateChange((nextAuthState, authData) => {
-      if (nextAuthState === AuthState.SignedIn && this.authCounter === 0) {
-        this.$router.go(-1);
-        this.authCounter++;
+      if (nextAuthState === AuthState.SignedIn) {
+        console.log(this.$route.query.redirect);
+        this.$router.push(this.$route.query.redirect);
       }
     });
   },
