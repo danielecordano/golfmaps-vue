@@ -114,9 +114,9 @@
             <v-list-item-content>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
-                  <span v-bind="attrs" v-on="on">{{
+                  <v-list-item-title v-bind="attrs" v-on="on">{{
                     user.attributes.email
-                  }}</span>
+                  }}</v-list-item-title>
                 </template>
                 <span>{{ user.attributes.email }}</span>
               </v-tooltip>

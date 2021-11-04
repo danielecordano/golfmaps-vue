@@ -1,5 +1,8 @@
 <template>
   <v-container>
+    <v-btn icon @click="$router.go(-1)">
+      <v-icon> mdi-left-arrow </v-icon>
+    </v-btn>
     <v-form ref="form" v-model="valid" lazy-validation>
       <v-text-field
         ref="name"
@@ -53,6 +56,7 @@ import { createCourse } from "../graphql/mutations";
 export default {
   name: "playground",
   data: () => ({
+    valid: false,
     name: "",
     lat: "",
     lng: "",
