@@ -15,8 +15,8 @@ export default {
   created() {
     this.unsubscribeAuth = onAuthUIStateChange((nextAuthState, authData) => {
       if (nextAuthState === AuthState.SignedIn) {
-        console.log(this.$route.query.redirect);
-        this.$router.push(this.$route.query.redirect);
+        if (this.$route.query.nextUrl)
+          this.$router.push(this.$route.query.nextUrl);
       }
     });
   },

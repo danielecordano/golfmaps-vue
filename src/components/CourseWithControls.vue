@@ -204,7 +204,7 @@
               <router-link
                 :to="{
                   path: '/auth',
-                  query: { redirect: $router.currentRoute.path },
+                  query: { nextUrl: $router.currentRoute.path },
                 }"
                 class="link"
                 >Login</router-link

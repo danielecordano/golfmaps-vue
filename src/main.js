@@ -54,7 +54,10 @@ router.beforeEach(async (to, from, next) => {
       next();
     } catch (error) {
       next({
-        path: "/auth"
+        path: "/auth",
+        query: {
+          nextUrl: to.fullPath
+        }
       });
     }
   } else {
