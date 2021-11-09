@@ -21,9 +21,7 @@
         @path-changed="handlePathChanged"
         @path-clicked="handlePathClicked"
         @map-clicked="handleMapClicked"
-        @map-keyboard-left="prev"
-        @map-keyboard-right="next"
-        class="fullheight"
+        class="full-height"
       />
       <v-navigation-drawer v-model="drawer" absolute temporary>
         <v-list>
@@ -32,12 +30,15 @@
               <v-icon>mdi-lead-pencil</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <v-text-field
-                v-model="course.name"
-                label="Course name"
-                placeholder="name"
-              >
-              </v-text-field>
+              <v-form v-model="valid">
+                <v-text-field
+                  v-model="course.name"
+                  label="Course name"
+                  placeholder="name"
+                  :rules="rules.name"
+                >
+                </v-text-field>
+              </v-form>
             </v-list-item-content>
           </v-list-item>
           <v-list-item
@@ -134,6 +135,7 @@
             <div v-if="course.owner === user.username">
               <v-list-item
                 link
+                :disabled="!valid"
                 @click="
                   save();
                   drawer = false;
@@ -163,6 +165,7 @@
             </div>
             <v-list-item
               link
+              :disabled="!valid"
               @click="
                 fork();
                 drawer = false;
@@ -238,6 +241,10 @@ export default {
       isImperial: true,
       selected: 0,
       center: null,
+      valid: false,
+      rules: {
+        name: [(val) => (val || "").length > 0 || "This field is required"],
+      },
     };
   },
   computed: {
@@ -247,7 +254,7 @@ export default {
         : "Change to imperial units";
     },
     weatherUrl() {
-      if (this.course) {
+      if (this.center) {
         const ll = this.center;
         const q = ll.lat.toFixed(3) + "," + ll.lng.toFixed(3);
         const url = "https://weather.com/weather/today/l/" + q;
@@ -371,7 +378,7 @@ export default {
 };
 </script>
 <style scoped>
-.fullheight {
+.full-height {
   position: fixed;
   height: 100%;
 }
