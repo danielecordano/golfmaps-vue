@@ -16,6 +16,7 @@ import "@aws-amplify/ui-vue";
 import { Auth } from "aws-amplify";
 import Amplify, { Analytics } from "aws-amplify";
 import awsconfig from "./aws-exports";
+import "./registerServiceWorker";
 
 Amplify.configure(awsconfig);
 Analytics.record({ name: "main" });
