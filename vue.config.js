@@ -8,13 +8,6 @@ module.exports = {
     msTileColor: "#000000",
     appleMobileWebAppCapable: "yes",
     appleMobileWebAppStatusBarStyle: "#FFA500",
-    // configure the workbox plugin
-    workboxPluginMode: "InjectManifest",
-    workboxOptions: {
-      // swSrc is required in InjectManifest mode.
-      swSrc: "./src/service-worker.js"
-      // ...other Workbox options...
-    },
     manifestOptions: {
       name: "Golfmaps",
       short_name: "Golfmaps",
