@@ -69,6 +69,21 @@
               <v-list-item-title>Previous hole</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
+          <v-list-item link>
+            <v-list-item-icon>
+              <v-icon>mdi-golf</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title
+                >Go to hole
+                <select v-model="selected" @change="drawer = false">
+                  <option v-for="(hole, i) in course.holes" :value="i" :key="i">
+                    {{ i + 1 }}
+                  </option>
+                </select>
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
           <v-list-item
             link
             @click="
@@ -249,9 +264,7 @@ export default {
   },
   computed: {
     isImperialLabel() {
-      return this.isImperial
-        ? "Change to metric units"
-        : "Change to imperial units";
+      return this.isImperial ? "Use metric units" : "Use imperial units";
     },
     weatherUrl() {
       if (this.center) {
