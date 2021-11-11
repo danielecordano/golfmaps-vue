@@ -1,3 +1,6 @@
+/*eslint no-undef: "error"*/
+/*eslint-env node*/
+
 module.exports = {
   pwa: {
     name: "Golfmaps",
@@ -5,6 +8,13 @@ module.exports = {
     msTileColor: "#000000",
     appleMobileWebAppCapable: "yes",
     appleMobileWebAppStatusBarStyle: "#FFA500",
+    // configure the workbox plugin
+    workboxPluginMode: "InjectManifest",
+    workboxOptions: {
+      // swSrc is required in InjectManifest mode.
+      swSrc: "./src/service-worker.js"
+      // ...other Workbox options...
+    },
     manifestOptions: {
       name: "Golfmaps",
       short_name: "Golfmaps",
@@ -15,15 +25,15 @@ module.exports = {
       orientation: "portrait-primary",
       icons: [
         {
-          src: "/public/golfmaps-512.png",
+          src: "golfmaps-512.png",
           type: "image/png",
           sizes: "512x512"
         }
       ]
     },
     iconPaths: {
-      favicon32: "/public/golfmaps.ico",
-      appleTouchIcon: "/public/golfmaps-512.png"
+      favicon32: "golfmaps.ico",
+      appleTouchIcon: "golfmaps-512.png"
     }
   }
 };
