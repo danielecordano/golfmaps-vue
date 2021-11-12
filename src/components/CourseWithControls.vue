@@ -74,11 +74,10 @@
               <v-icon>mdi-golf</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title
-                >Go to hole
+              <v-list-item-title>
                 <select v-model="selected" @change="drawer = false">
                   <option v-for="(hole, i) in course.holes" :value="i" :key="i">
-                    {{ i + 1 }}
+                    Go to hole {{ i + 1 }}
                   </option>
                 </select>
               </v-list-item-title>
