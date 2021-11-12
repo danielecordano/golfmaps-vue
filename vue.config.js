@@ -13,7 +13,7 @@ module.exports = {
       short_name: "Golfmaps",
       start_url: "/",
       display: "standalone",
-      background_color: "#FFA500",
+      background_color: "#FFFFFF",
       theme_color: "#FFA500",
       orientation: "portrait-primary",
       icons: [
