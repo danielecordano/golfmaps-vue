@@ -15,8 +15,13 @@ export default {
   created() {
     this.unsubscribeAuth = onAuthUIStateChange((nextAuthState, authData) => {
       if (nextAuthState === AuthState.SignedIn) {
-        if (this.$route.query.nextUrl)
-          this.$router.push(this.$route.query.nextUrl);
+        if (this.$route.query.nextUrl) {
+          try {
+            this.$router.push(this.$route.query.nextUrl);
+          } catch (error) {
+            console.log(error);
+          }
+        }
       }
     });
   },

@@ -1,5 +1,5 @@
 <template>
-  <div id="course" @keyup.left="prev" @keyup.right="next">
+  <div @keyup.left="prev" @keyup.right="next">
     <v-app>
       <v-app-bar-nav-icon
         v-if="course"
@@ -24,91 +24,97 @@
         class="full-height"
       />
       <v-navigation-drawer v-model="drawer" absolute temporary>
-        <v-list>
-          <v-list-item v-if="course" link>
-            <v-list-item-icon>
-              <v-icon>mdi-lead-pencil</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-form v-model="valid">
-                <v-text-field
-                  v-model="course.name"
-                  label="Course name"
-                  placeholder="name"
-                  :rules="rules.name"
-                >
-                </v-text-field>
-              </v-form>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item
-            link
-            @click="
-              next();
-              drawer = false;
-            "
-          >
-            <v-list-item-icon>
-              <v-icon>mdi-chevron-right</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>Next hole</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item
-            link
-            @click="
-              prev();
-              drawer = false;
-            "
-          >
-            <v-list-item-icon>
-              <v-icon>mdi-chevron-left</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>Previous hole</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item link>
-            <v-list-item-icon>
-              <v-icon>mdi-golf</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>
-                <select v-model="selected" @change="drawer = false">
-                  <option v-for="(hole, i) in course.holes" :value="i" :key="i">
-                    Go to hole {{ i + 1 }}
-                  </option>
-                </select>
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item
-            link
-            @click="
-              isImperial = !isImperial;
-              drawer = false;
-            "
-          >
-            <v-list-item-icon>
-              <v-icon>mdi-ruler</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>{{ isImperialLabel }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-        <v-divider />
-        <v-list v-if="course">
-          <v-list-item link>
-            <v-list-item-icon>
-              <v-icon>mdi-weather-sunny</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <a :href="weatherUrl" target="_blank" class="link">Weather</a>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
+        <div v-if="course">
+          <v-list>
+            <v-list-item link>
+              <v-list-item-icon>
+                <v-icon>mdi-lead-pencil</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-form v-model="valid">
+                  <v-text-field
+                    v-model="course.name"
+                    label="Course name"
+                    placeholder="name"
+                    :rules="rules.name"
+                  >
+                  </v-text-field>
+                </v-form>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item
+              link
+              @click="
+                next();
+                drawer = false;
+              "
+            >
+              <v-list-item-icon>
+                <v-icon>mdi-chevron-right</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>Next hole</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item
+              link
+              @click="
+                prev();
+                drawer = false;
+              "
+            >
+              <v-list-item-icon>
+                <v-icon>mdi-chevron-left</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>Previous hole</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item link>
+              <v-list-item-icon>
+                <v-icon>mdi-golf</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>
+                  <select v-model="selected" @change="drawer = false">
+                    <option
+                      v-for="(hole, i) in course.holes"
+                      :value="i"
+                      :key="i"
+                    >
+                      Go to hole {{ i + 1 }}
+                    </option>
+                  </select>
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item
+              link
+              @click="
+                isImperial = !isImperial;
+                drawer = false;
+              "
+            >
+              <v-list-item-icon>
+                <v-icon>mdi-ruler</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>{{ isImperialLabel }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+          <v-divider />
+          <v-list>
+            <v-list-item link>
+              <v-list-item-icon>
+                <v-icon>mdi-weather-sunny</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <a :href="weatherUrl" target="_blank" class="link">Weather</a>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </div>
         <v-divider />
         <v-list>
           <v-list-item link>

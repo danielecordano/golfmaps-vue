@@ -35,34 +35,13 @@
         </v-list>
       </div>
     </v-container>
-    <v-footer dark padless fixed>
-      <v-card
-        flat
-        tile
-        class="orange lighten-1 white--text text-center full-width"
-      >
-        <v-card-text>
-          <a
-            href="https://twitter.com/golfmapsinfo"
-            target="_blank"
-            class="no-decoration"
-          >
-            <v-btn class="mx-4 white--text" icon>
-              <v-icon size="24px"> mdi-twitter </v-icon>
-            </v-btn>
-          </a>
-        </v-card-text>
-        <v-divider></v-divider>
-        <v-card-text class="white--text">
-          {{ new Date().getFullYear() }} — <strong>Golfmaps</strong>
-        </v-card-text>
-      </v-card>
-    </v-footer>
+    <Footer />
   </v-app>
 </template>
 <script>
 import { Auth, API } from "aws-amplify";
 import { listCourses } from "../graphql/queries";
+import Footer from "./Footer.vue";
 export default {
   data() {
     return {
@@ -111,6 +90,9 @@ export default {
       });
       this.loading = false;
     },
+  },
+  components: {
+    Footer,
   },
 };
 </script>
