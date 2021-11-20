@@ -209,12 +209,12 @@
               </v-list-item-content>
             </v-list-item>
           </div>
-          <v-list-item>
+          <v-list-item link @click="signOut">
             <v-list-item-icon>
               <v-icon>mdi-logout</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <amplify-sign-out button-text="Log out"></amplify-sign-out>
+              <v-list-item-title>Logout</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -242,7 +242,6 @@
 <script>
 import { Auth } from "aws-amplify";
 import { AuthState } from "@aws-amplify/ui-components";
-import { onAuthUIStateChange } from "@aws-amplify/ui-components";
 import { API, graphqlOperation } from "aws-amplify";
 import { updateCourse, createCourse, deleteCourse } from "../graphql/mutations";
 import { getCourse } from "../graphql/queries";
@@ -253,7 +252,6 @@ export default {
     return {
       user: undefined,
       authState: undefined,
-      unsubscribeAuth: undefined,
       drawer: false,
       loading: true,
       error: null,
@@ -309,13 +307,6 @@ export default {
         })
         .catch((error) => console.log(error));
     }
-    this.unsubscribeAuth = onAuthUIStateChange((authState, authData) => {
-      this.authState = authState;
-      this.user = authData;
-    });
-  },
-  beforeDestroy() {
-    this.unsubscribeAuth();
   },
   methods: {
     next: function () {
@@ -388,6 +379,15 @@ export default {
     handleMapClicked: function (e) {
       const point = e.latLng.toJSON();
       this.course.holes[this.selected].push(point);
+    },
+    signOut: async function () {
+      try {
+        await Auth.signOut();
+        this.authState = AuthState.SignedOut;
+        this.user = undefined;
+      } catch (error) {
+        console.log("error signing out: ", error);
+      }
     },
   },
   components: {

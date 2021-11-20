@@ -13,12 +13,15 @@ import MyCourses from "./components/MyCourses";
 
 import * as GmapVue from "gmap-vue";
 import "@aws-amplify/ui-vue";
-import { Auth } from "aws-amplify";
-import Amplify, { Analytics } from "aws-amplify";
+import Amplify, { Analytics, Auth } from "aws-amplify";
 import awsconfig from "./aws-exports";
 
 Amplify.configure(awsconfig);
 Analytics.record({ name: "main" });
+Analytics.autoTrack("pageView", {
+  enable: true,
+  type: "SPA"
+});
 
 const opts = {
   icons: {
