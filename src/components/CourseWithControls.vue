@@ -152,7 +152,7 @@
             </v-list-item-content>
           </v-list-item>
           <div v-if="course">
-            <div v-if="course.owner === user.username">
+            <div v-if="isOwner || isAdmin">
               <v-list-item
                 link
                 :disabled="!valid"
@@ -277,6 +277,21 @@ export default {
         return url;
       }
       return "#";
+    },
+    isOwner() {
+      if (this.course && this.user) {
+        return this.course.owner === this.user.username;
+      }
+      return false;
+    },
+    isAdmin() {
+      if (this.course && this.user) {
+        const groups = this.user.signInUserSession.accessToken.payload["cognito:groups"];
+        if (groups) {
+          return groups.includes("Admins");
+        }
+      }
+      return false;
     },
   },
   async mounted() {
