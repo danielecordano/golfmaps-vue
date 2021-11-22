@@ -286,7 +286,9 @@ export default {
     },
     isAdmin() {
       if (this.course && this.user) {
-        const groups = this.user.signInUserSession.accessToken.payload["cognito:groups"];
+        const groups = this.user.signInUserSession.accessToken.payload[
+          "cognito:groups"
+        ];
         if (groups) {
           return groups.includes("Admins");
         }
@@ -370,7 +372,8 @@ export default {
           })
         );
         const id = response.data.createCourse.id;
-        this.$route.push(`/course/${id}`);
+        await this.$router.push({ path: "/mycourses" });
+        await this.$router.push({ path: `/course/${id}` });
       } catch (error) {
         console.log(error);
       }
