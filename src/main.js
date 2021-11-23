@@ -15,6 +15,7 @@ import * as GmapVue from "gmap-vue";
 import "@aws-amplify/ui-vue";
 import Amplify, { Analytics, Auth } from "aws-amplify";
 import awsconfig from "./aws-exports";
+import './registerServiceWorker'
 
 Amplify.configure(awsconfig);
 Analytics.record({ name: "main" });
