@@ -235,6 +235,21 @@
             </v-list-item-content>
           </v-list-item>
         </v-list>
+        <v-divider />
+        <v-list>
+          <v-list-item link>
+            <v-list-item-icon>
+              <v-icon>mdi-currency-usd</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>     
+              <a
+                href="https://www.buymeacoffee.com/danielecordano"
+                target="_blank"
+                class="link"
+              >Donate</a>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
       </v-navigation-drawer>
     </v-app>
   </div>
