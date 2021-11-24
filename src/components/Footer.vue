@@ -15,6 +15,15 @@
             <v-icon size="24px"> mdi-twitter </v-icon>
           </v-btn>
         </a>
+        <a
+          href="https://www.buymeacoffee.com/danielecordano"
+          target="_blank"
+          class="no-decoration"
+        >
+          <v-btn class="mx-4 white--text" icon>
+            <v-icon size="24px"> mdi-currency-usd </v-icon>
+          </v-btn>
+        </a>
       </v-card-text>
       <v-divider></v-divider>
       <v-card-text class="white--text">
