@@ -60,7 +60,7 @@ export default {
           filter: filter,
           limit: 1000,
         },
-        authMode: "IAM",
+        authMode: "AWS_IAM",
       });
       this.courses = response.data.listCourses.items.sort(function (a, b) {
         return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
