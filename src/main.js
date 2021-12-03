@@ -12,8 +12,11 @@ import NewCourse from "./components/NewCourse";
 import MyCourses from "./components/MyCourses";
 
 import * as GmapVue from "gmap-vue";
-import "@aws-amplify/ui-vue";
 import Amplify, { Analytics, Auth } from "aws-amplify";
+import {
+  applyPolyfills,
+  defineCustomElements,
+} from '@aws-amplify/ui-components/loader';
 import awsconfig from "./aws-exports";
 import './registerServiceWorker'
 
@@ -23,6 +26,12 @@ Analytics.autoTrack("pageView", {
   enable: true,
   type: "SPA"
 });
+
+applyPolyfills().then(() => {
+  defineCustomElements(window);
+});
+
+Vue.config.ignoredElements = [/amplify-\w*/];
 
 const opts = {
   icons: {

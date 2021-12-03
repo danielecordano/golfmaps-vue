@@ -337,7 +337,9 @@ export default {
           this.authState = AuthState.SignedIn;
           this.user = authData;
         })
-        .catch((error) => console.log(error));
+        .catch(() => {
+          this.user = undefined;
+        });
     }
   },
   methods: {
@@ -358,8 +360,8 @@ export default {
             },
           })
         );
-      } catch (error) {
-        console.log(error);
+      } catch(error) {
+        alert("Save failed. " + error.message);
       }
     },
     remove: async function () {
@@ -371,8 +373,8 @@ export default {
             },
           })
         );
-      } catch (error) {
-        console.log(error);
+      } catch(error) {
+        alert("Delete failed. " + error.message);
       }
       this.$router.push("/");
     },
@@ -389,8 +391,8 @@ export default {
         const id = response.data.createCourse.id;
         await this.$router.push({ path: "/mycourses" });
         await this.$router.push({ path: `/course/${id}` });
-      } catch (error) {
-        console.log(error);
+      } catch(error) {
+        alert("Fork failed. " + error.message);
       }
     },
     handlePathClicked: function ({ event, index }) {
@@ -419,7 +421,7 @@ export default {
         this.authState = AuthState.SignedOut;
         this.user = undefined;
       } catch (error) {
-        console.log("error signing out: ", error);
+        alert("Error signing out: ", error.message);
       }
     },
   },
