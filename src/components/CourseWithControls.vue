@@ -315,7 +315,7 @@ export default {
     const response = await API.graphql({
       query: getCourse,
       variables: { id: this.$route.params.id },
-      authMode: "API_KEY",
+      authMode: "IAM",
     });
     const course = response.data.getCourse;
     course.holes.every((hole) => {
