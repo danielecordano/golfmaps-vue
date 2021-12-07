@@ -58,7 +58,7 @@ export default {
           this.user = authData;
           this.fetch();
         })
-        .catch((error) => console.log(error));
+        .catch(() => this.user = undefined);
     }
   },
   methods: {
@@ -82,14 +82,29 @@ export default {
         query: listCourses,
         variables: {
           filter: filter,
-          limit: 1000,
+          limit: 100,
         },
       });
-      this.courses = response.data.listCourses.items.sort(function (a, b) {
-        return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
-      });
+      let courses = response.data.listCourses.items;
+      let nextToken = response.data.listCourses.nextToken;
+      while (nextToken) {
+        let page = await API.graphql({
+          query: listCourses,
+          variables: {
+            filter: filter,
+            limit: 100,
+            nextToken: nextToken,
+          },
+        });
+        courses = courses.concat(page.data.listCourses.items);
+        nextToken = page.data.listCourses.nextToken;
+      }
+      this.courses = courses.sort(this.sortByName);
       this.loading = false;
     },
+    sortByName(a, b) {
+      return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
+    }
   },
   components: {
     Footer,
