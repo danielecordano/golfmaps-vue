@@ -11,7 +11,7 @@
       <div v-if="loading">
         <v-progress-linear indeterminate color="orange"></v-progress-linear>
       </div>
-      <div v-else class="fill-height">
+      <div v-else class="bottom">
         <v-list>
           <v-list-item
             link
@@ -97,6 +97,6 @@ export default {
   width: fit-content;
 }
 .bottom {
-  margin-top: auto;
+  margin-bottom: 130px;
 }
 </style>
