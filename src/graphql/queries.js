@@ -25,6 +25,7 @@ export const listCourses = /* GraphQL */ `
         id
         name
         owner
+        createdAt
       }
       nextToken
     }
