@@ -6,7 +6,7 @@
           <h3 class="title">My Courses</h3>
         </v-col>
         <v-spacer />
-        <router-link to="/" class="no-decoration">All courses</router-link>
+        <router-link to="/" class="text-decoration-none h3-text">All courses</router-link>
       </v-row>
       <v-text-field
         label="Search my courses"
@@ -27,9 +27,9 @@
             class="fit"
           >
             <v-list-item-content>
-              <router-link :to="`/course/${course.id}`" class="no-decoration">{{
+              <router-link :to="`/course/${course.id}`" class="text-decoration-none">{{
                 course.name
-              }}<span class="grey-text"> created {{ timeAgo(course.createdAt) }}</span></router-link>
+              }}<span class="grey-text"> created <TimeAgo :timestamp="course.createdAt" /></span></router-link>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -41,8 +41,8 @@
 <script>
 import { Auth, API } from "aws-amplify";
 import { listCourses } from "../graphql/queries";
-import Footer from "./Footer.vue";
-import humanized_time_span from "../humanized_time_stamp";
+import TimeAgo from "./TimeAgo";
+import Footer from "./Footer";
 
 export default {
   data() {
@@ -106,19 +106,17 @@ export default {
     },
     sortByName(a, b) {
       return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
-    },
-    timeAgo(date) {
-      return humanized_time_span(date);
     }
   },
   components: {
+    TimeAgo,
     Footer,
   },
 };
 </script>
 <style scoped>
-.no-decoration {
-  text-decoration: none;
+.h3-text {
+  font-size: 1.3em;  
 }
 .full-width {
   width: 100%;

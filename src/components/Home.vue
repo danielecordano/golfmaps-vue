@@ -22,7 +22,7 @@
             <v-list-item-content>
               <router-link :to="`/course/${course.id}`" class="no-decoration">{{
                 course.name
-              }}<span class="grey-text"> created {{ timeAgo(course.createdAt) }}</span></router-link>
+              }}<span class="grey-text"> created <TimeAgo :timestamp="course.createdAt" /></span></router-link>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -34,8 +34,8 @@
 <script>
 import { API } from "aws-amplify";
 import { listCourses } from "../graphql/queries";
+import TimeAgo from "./TimeAgo";
 import Footer from "./Footer";
-import humanized_time_span from "../humanized_time_stamp";
 
 export default {
   data() {
@@ -84,12 +84,10 @@ export default {
     },
     sortByName(a, b) {
       return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
-    },
-    timeAgo(date) {
-      return humanized_time_span(date);
     }
   },
   components: {
+    TimeAgo,
     Footer,
   },
 };
