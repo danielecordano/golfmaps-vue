@@ -60,7 +60,6 @@ export default {
         query: listCourses,
         variables: {
           filter: filter,
-          limit: 100,
         },
         authMode: "AWS_IAM",
       });
@@ -71,7 +70,6 @@ export default {
           query: listCourses,
           variables: {
             filter: filter,
-            limit: 100,
             nextToken: nextToken,
           },
           authMode: "AWS_IAM",

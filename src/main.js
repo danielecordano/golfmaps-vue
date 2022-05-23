@@ -12,7 +12,7 @@ import NewCourse from "./components/NewCourse";
 import MyCourses from "./components/MyCourses";
 
 import * as GmapVue from "gmap-vue";
-import Amplify, { Analytics, Auth } from "aws-amplify";
+import { Amplify, Analytics, Auth } from "aws-amplify";
 import {
   applyPolyfills,
   defineCustomElements,
