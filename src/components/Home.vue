@@ -26,6 +26,7 @@
             </v-list-item-content>
           </v-list-item>
         </v-list>
+        <v-btn v-if="nextToken" @click="loadMore">Load more</v-btn>
       </div>
     </v-container>
     <Footer />
@@ -33,7 +34,7 @@
 </template>
 <script>
 import { API } from "aws-amplify";
-import { listCourses } from "../graphql/queries";
+import { searchCourses } from "../graphql/queries";
 import TimeAgo from "./TimeAgo";
 import Footer from "./Footer";
 
@@ -43,6 +44,11 @@ export default {
       courses: [],
       loading: true,
       search: "",
+      sort: {
+        "field": "name",
+        "direction": "asc"
+      },
+      nextToken: null
     };
   },
   mounted() {
@@ -53,35 +59,42 @@ export default {
       this.loading = true;
       const filter = {
         name: {
-          contains: this.search.toLowerCase(),
-        },
+          match: this.search.toLowerCase()
+        }
       };
       const response = await API.graphql({
-        query: listCourses,
+        query: searchCourses,
         variables: {
-          filter: filter,
+          filter,
+          sort: this.sort
         },
         authMode: "AWS_IAM",
       });
-      let courses = response.data.listCourses.items;
-      let nextToken = response.data.listCourses.nextToken;
-      while (nextToken) {
-        let page = await API.graphql({
-          query: listCourses,
-          variables: {
-            filter: filter,
-            nextToken: nextToken,
-          },
-          authMode: "AWS_IAM",
-        });
-        courses = courses.concat(page.data.listCourses.items);
-        nextToken = page.data.listCourses.nextToken;
-      }
-      this.courses = courses.sort(this.sortByName);
+      // eslint-disable-next-line
+      console.log(response);
+      this.courses = response.data.searchCourses.items;
+      this.nextToken = response.data.searchCourses.nextToken;
       this.loading = false;
     },
-    sortByName(a, b) {
-      return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
+    async loadMore() {
+      this.loading = true;
+      const filter = {
+        name: {
+          match: this.search.toLowerCase()
+        }
+      };
+      const response = await API.graphql({
+        query: searchCourses,
+        variables: {
+          filter,
+          sort: this.sort,
+          nextToken: this.nextToken
+        },
+        authMode: "AWS_IAM",
+      });
+      this.courses = this.courses.concat(response.data.searchCourses.items);
+      this.nextToken = response.data.searchCourses.nextToken;
+      this.loading = false;
     }
   },
   components: {

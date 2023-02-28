@@ -55,3 +55,8 @@ export const deleteCourse = /* GraphQL */ `
     }
   }
 `;
+export const likeCourse = /* GraphQL */ `
+  mutation LikeCourse($courseId: ID!) {
+    likeCourse(courseId: $courseId)
+  }
+`;

@@ -10,7 +10,10 @@ export const getCourse = /* GraphQL */ `
         lat
         lng
       }
+      likes
       owner
+      createdAt
+      updatedAt
     }
   }
 `;
@@ -26,36 +29,36 @@ export const listCourses = /* GraphQL */ `
         name
         owner
         createdAt
+        updatedAt
       }
       nextToken
     }
   }
 `;
-export const syncCourses = /* GraphQL */ `
-  query SyncCourses(
-    $filter: ModelCourseFilterInput
+export const searchCourses = /* GraphQL */ `
+  query SearchCourses(
+    $filter: SearchableCourseFilterInput
+    $sort: SearchableCourseSortInput
     $limit: Int
     $nextToken: String
-    $lastSync: AWSTimestamp
+    $from: Int
   ) {
-    syncCourses(
+    searchCourses(
       filter: $filter
+      sort: $sort
       limit: $limit
       nextToken: $nextToken
-      lastSync: $lastSync
+      from: $from
     ) {
       items {
         id
         name
         owner
-        _version
-        _deleted
-        _lastChangedAt
         createdAt
         updatedAt
       }
       nextToken
-      startedAt
+      total
     }
   }
 `;

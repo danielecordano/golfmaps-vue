@@ -6,6 +6,13 @@
         @click="drawer = true"
         class="menu"
       ></v-app-bar-nav-icon>
+      <div v-if="course && user"
+        class="like"
+      >
+        <v-icon v-if="!liked" color="red" size="64" @click="like">mdi-heart-outline</v-icon>
+        <v-icon v-else color="red" size="64">mdi-heart</v-icon>
+        <div class="red-transparent">{{ this.likesNumber }}</div>
+      </div>
       <div v-if="loading">
         <v-progress-linear indeterminate color="orange"></v-progress-linear>
       </div>
@@ -258,7 +265,7 @@
 import { Auth } from "aws-amplify";
 import { AuthState } from "@aws-amplify/ui-components";
 import { API, graphqlOperation } from "aws-amplify";
-import { updateCourse, createCourse, deleteCourse } from "../graphql/mutations";
+import { updateCourse, createCourse, deleteCourse, likeCourse } from "../graphql/mutations";
 import { getCourse } from "../graphql/queries";
 import Course from "./Course.vue";
 export default {
@@ -310,6 +317,17 @@ export default {
       }
       return false;
     },
+    liked(){
+      if (this.course)
+        if (this.course.likes)
+          if (this.course.likes.includes(this.user.username))
+            return true;
+      return false;
+    },
+    likesNumber(){
+      const formatter = Intl.NumberFormat('en', { notation: 'compact' });
+      return this.course.likes ? formatter.format(this.course.likes.length) : 0;
+    }
   },
   async mounted() {
     const response = await API.graphql({
@@ -348,6 +366,20 @@ export default {
     },
     prev: function () {
       this.selected = (this.selected + 17) % 18;
+    },
+    like: async function () {
+      try {
+        const response = await API.graphql(
+          graphqlOperation(likeCourse, {
+            courseId: this.course.id
+            }
+          ));
+        // eslint-disable-next-line
+        console.log(response);
+        this.course.likes = response.data.likeCourse;
+      } catch(error) {
+        alert("Like failed. " + error.message);
+      }
     },
     save: async function () {
       try {
@@ -439,6 +471,19 @@ export default {
   position: absolute;
   z-index: 1;
   background: white;
+}
+.like {
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  bottom: 32px;
+}
+.red-transparent{
+  font-size: 32px;
+  color: red;
+  background-color: transparent;
+  width: fit-content;
+  margin: auto;
 }
 .link {
   text-decoration: none;
