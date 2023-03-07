@@ -10,8 +10,8 @@
         class="like"
       >
         <v-icon v-if="!liked" color="red" size="64" @click="like">mdi-heart-outline</v-icon>
-        <v-icon v-else color="red" size="64">mdi-heart</v-icon>
-        <div class="red-transparent">{{ this.likesNumber }}</div>
+        <v-icon v-else color="red" size="64" @click="unlike">mdi-heart</v-icon>
+        <div class="red-transparent">{{ this.likesCount }}</div>
       </div>
       <div v-if="loading">
         <v-progress-linear indeterminate color="orange"></v-progress-linear>
@@ -265,7 +265,7 @@
 import { Auth } from "aws-amplify";
 import { AuthState } from "@aws-amplify/ui-components";
 import { API, graphqlOperation } from "aws-amplify";
-import { updateCourse, createCourse, deleteCourse, likeCourse } from "../graphql/mutations";
+import { updateCourse, createCourse, deleteCourse, likeCourse, unlikeCourse } from "../graphql/mutations";
 import { getCourse } from "../graphql/queries";
 import Course from "./Course.vue";
 export default {
@@ -285,6 +285,7 @@ export default {
       rules: {
         name: [(val) => (val || "").length > 0 || "This field is required"],
       },
+      liking: false,
     };
   },
   computed: {
@@ -324,7 +325,7 @@ export default {
             return true;
       return false;
     },
-    likesNumber(){
+    likesCount(){
       const formatter = Intl.NumberFormat('en', { notation: 'compact' });
       return this.course.likes ? formatter.format(this.course.likes.length) : 0;
     }
@@ -368,18 +369,40 @@ export default {
       this.selected = (this.selected + 17) % 18;
     },
     like: async function () {
+      if (this.liking)
+        return;
+      this.liking = true;
       try {
         const response = await API.graphql(
           graphqlOperation(likeCourse, {
             courseId: this.course.id
             }
           ));
-        // eslint-disable-next-line
-        console.log(response);
         this.course.likes = response.data.likeCourse;
       } catch(error) {
         alert("Like failed. " + error.message);
       }
+      this.liking = false;
+    },
+    unlike: async function () {
+      // eslint-disable-next-line
+      console.log("liking", this.liking);
+      if (this.liking)
+        return;
+      this.liking = true;
+      try {
+        const response = await API.graphql(
+          graphqlOperation(unlikeCourse, {
+            courseId: this.course.id
+            }
+          ));
+        // eslint-disable-next-line
+        console.log("response", response);
+        this.course.likes = response.data.unlikeCourse;
+      } catch(error) {
+        alert("Like failed. " + error.message);
+      }
+      this.liking = false;
     },
     save: async function () {
       try {
@@ -389,6 +412,7 @@ export default {
               id: this.course.id,
               holes: this.course.holes,
               name: this.course.name.toLowerCase(),
+              likes: this.course.likes
             },
           })
         );

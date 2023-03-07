@@ -60,3 +60,8 @@ export const likeCourse = /* GraphQL */ `
     likeCourse(courseId: $courseId)
   }
 `;
+export const unlikeCourse = /* GraphQL */ `
+  mutation UnlikeCourse($courseId: ID!) {
+    unlikeCourse(courseId: $courseId)
+  }
+`;
