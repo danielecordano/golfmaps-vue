@@ -35,7 +35,20 @@ const awsmobile = {
         "EMAIL"
     ],
     "aws_mobile_analytics_app_id": "df955e19537849269d8736823ed64736",
-    "aws_mobile_analytics_app_region": "us-east-1"
+    "aws_mobile_analytics_app_region": "us-east-1",
+    "Analytics": {
+        "AWSPinpoint": {
+            "appId": "df955e19537849269d8736823ed64736",
+            "region": "us-east-1"
+        }
+    },
+    "aws_dynamodb_all_tables_region": "us-east-2",
+    "aws_dynamodb_table_schemas": [
+        {
+            "tableName": "Course-am3brnpa4nbi3gzqthk27susc4-staging",
+            "region": "us-east-2"
+        }
+    ]
 };
 
 
