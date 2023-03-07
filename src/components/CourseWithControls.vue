@@ -385,8 +385,6 @@ export default {
       this.liking = false;
     },
     unlike: async function () {
-      // eslint-disable-next-line
-      console.log("liking", this.liking);
       if (this.liking)
         return;
       this.liking = true;
@@ -396,8 +394,6 @@ export default {
             courseId: this.course.id
             }
           ));
-        // eslint-disable-next-line
-        console.log("response", response);
         this.course.likes = response.data.unlikeCourse;
       } catch(error) {
         alert("Like failed. " + error.message);
@@ -498,9 +494,12 @@ export default {
 }
 .like {
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   right: 0;
   bottom: 32px;
+  display: block;
+  margin: 0;
+  padding: 0;
 }
 .red-transparent{
   font-size: 32px;
