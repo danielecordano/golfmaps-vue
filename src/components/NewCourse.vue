@@ -76,7 +76,7 @@ export default {
         const id = response.data.createCourse.id;
         this.$router.push(`/course/${id}`);
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     submit() {

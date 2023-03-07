@@ -29,7 +29,7 @@ export default {
                 graphqlOperation(createCourse, { input: course })
               );
             } catch (error) {
-              console.log(error);
+              alert(error);
             }
           });
           router.push("/mycourses");
