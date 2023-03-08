@@ -6,9 +6,7 @@
         @click="drawer = true"
         class="menu"
       ></v-app-bar-nav-icon>
-      <div v-if="course && user"
-        class="like"
-      >
+      <div v-if="course && user" class="like">
         <v-icon v-if="!liked" color="red" size="64" @click="like">mdi-heart-outline</v-icon>
         <v-icon v-else color="red" size="64" @click="unlike">mdi-heart</v-icon>
         <div class="red-transparent">{{ this.likesCount }}</div>
@@ -491,10 +489,12 @@ export default {
   position: absolute;
   z-index: 1;
   background: white;
+  width: 64px;
+  height: 64px;
 }
 .like {
-  position: absolute;
-  z-index: 2;
+  position: fixed;
+  z-index: 5;
   right: 0;
   bottom: 32px;
   display: block;
