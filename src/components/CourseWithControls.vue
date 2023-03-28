@@ -7,8 +7,8 @@
         class="menu"
       ></v-app-bar-nav-icon>
       <div v-if="course && user" class="like">
-        <v-icon v-if="!liked" color="red" size="64" @click="like">mdi-heart-outline</v-icon>
-        <v-icon v-else color="red" size="64" @click="unlike">mdi-heart</v-icon>
+        <v-icon v-if="!liked" color="rgb(255, 0, 128)" size="64" @click="like">mdi-heart-outline</v-icon>
+        <v-icon v-else color="rgb(255, 0, 128)" size="64" @click="unlike">mdi-heart</v-icon>
         <div class="red-transparent">{{ this.likesCount }}</div>
       </div>
       <div v-if="loading">
@@ -317,10 +317,10 @@ export default {
       return false;
     },
     liked(){
-      if (this.course)
-        if (this.course.likes)
-          if (this.course.likes.includes(this.user.username))
-            return true;
+      if (this.course && 
+        this.course.likes &&
+        this.course.likes.includes(this.user.username))
+        return true;
       return false;
     },
     likesCount(){
@@ -328,24 +328,8 @@ export default {
       return this.course.likes ? formatter.format(this.course.likes.length) : 0;
     }
   },
-  async mounted() {
-    const response = await API.graphql({
-      query: getCourse,
-      variables: { id: this.$route.params.id },
-      authMode: "AWS_IAM",
-    });
-    const course = response.data.getCourse;
-    course.holes.every((hole) => {
-      if (hole[0]) {
-        this.center = { ...hole[0] };
-        return false;
-      } else {
-        return true;
-      }
-    });
-    if (!this.center) this.center = { lat: 33.50239, lng: -82.01995 };
-    this.course = course;
-    this.loading = false;
+  mounted() {
+    this.init();
   },
   created() {
     if (this.authState === undefined) {
@@ -360,6 +344,25 @@ export default {
     }
   },
   methods: {
+    init: async function () {
+      const response = await API.graphql({
+        query: getCourse,
+        variables: { id: this.$route.params.id },
+        authMode: "AWS_IAM",
+      });
+      const course = response.data.getCourse;
+      course.holes.every((hole) => {
+        if (hole[0]) {
+          this.center = { ...hole[0] };
+          return false;
+        } else {
+          return true;
+        }
+      });
+      if (!this.center) this.center = { lat: 33.50239, lng: -82.01995 };
+      this.course = course;
+      this.loading = false;
+    },
     next: function () {
       this.selected = (this.selected + 19) % 18;
     },
@@ -439,8 +442,8 @@ export default {
           })
         );
         const id = response.data.createCourse.id;
-        await this.$router.push({ path: "/mycourses" });
         await this.$router.push({ path: `/course/${id}` });
+        this.init();
       } catch(error) {
         alert("Fork failed. " + error.message);
       }
@@ -503,7 +506,7 @@ export default {
 }
 .red-transparent{
   font-size: 32px;
-  color: red;
+  color: rgb(255, 0, 128);
   background-color: transparent;
   width: fit-content;
   margin: auto;
