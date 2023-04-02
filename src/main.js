@@ -42,7 +42,7 @@ Vue.use(Vuetify);
 Vue.use(VueRouter);
 Vue.use(GmapVue, {
   load: {
-    key: "AIzaSyC4Wf6YgqgaqXtaHACUYyhlRNtMutMPHuk"
+    key: "AIzaSyAGd4akejQ6QCX5nJkCyXxT2UVWFhVRXOQ"
   },
   installComponents: true
 });
