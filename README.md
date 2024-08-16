@@ -1,3 +1,2 @@
-# golfmaps-vue-2
-Created with CodeSandbox.  
+# golfmaps-vue
 Live at [golfmaps.info](https://golfmaps.info)
